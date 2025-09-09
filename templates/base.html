@@ -3,45 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Attendance System{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Attendance System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+        .navbar a {
+            color: white;
+            padding: 1em;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #575757;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
 </head>
 <body>
+    <nav class="navbar">
+        <a href="/">Home</a>
+        <a href="/admin/login">Admin Login</a>
+        <a href="/admin/register">Admin Register</a>
+        <a href="/student/register">Student Register</a>
+    </nav>
     <div class="container">
-        <header>
-            <h1>Attendance System</h1>
-        </header>
-        <nav>
-            <ul>
-                {% if session.get('admin_id') %}
-                    <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ url_for('student_register') }}">Register Student</a></li>
-                    <li><a href="{{ url_for('attendance_data') }}">View Attendance</a></li>
-                    <li><a href="{{ url_for('admin_logout') }}">Logout ({{ session.get('username') }})</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('admin_login') }}">Admin Login</a></li>
-                    <li><a href="{{ url_for('admin_register') }}">Admin Register</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-        <main>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <ul class="flash-messages">
-                        {% for category, message in messages %}
-                            <li class="{{ category }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
-
-            {% block content %}{% endblock %}
-        </main>
-        <footer>
-            <p>&copy; {{ moment().format('YYYY') }} Attendance System. All rights reserved.</p>
-        </footer>
+        {% block content %}{% endblock %}
     </div>
-    <!-- Include moment.js if you want to use it for client-side date formatting -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script> -->
+    <footer class="footer">
+        <p>&copy; 2023 Attendance System</p>
+    </footer>
 </body>
 </html>
