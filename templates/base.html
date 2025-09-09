@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Attendance System</h1>
+            <nav>
+                {% if session.get('admin_id') %}
+                    <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('student_register') }}">Register Student</a>
+                    <a href="{{ url_for('attendance_data') }}">View Attendance</a>
+                    <span>Welcome, {{ session.get('username') }}!</span>
+                    <a href="{{ url_for('admin_logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('admin_login') }}">Admin Login</a>
+                    <a href="{{ url_for('admin_register') }}">Admin Register</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+        {% if message %}
+            <p class="success-message">{{ message }}</p>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Attendance System. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
